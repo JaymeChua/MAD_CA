@@ -19,6 +19,29 @@ fun GameScreen(onNavigateToSettings: () -> Unit) {
     var moleIndex by remember { mutableStateOf(-1) }
     var isGameRunning by remember { mutableStateOf(false) }
 
+    // Logic for counting down time
+    LaunchedEffect(isGameRunning) {
+        if (isGameRunning) {
+            while (timeLeft > 0) {
+                kotlinx.coroutines.delay(1000L)
+                timeLeft--
+            }
+            isGameRunning = false
+        }
+    }
+
+// Logic for moving the mole randomly
+    LaunchedEffect(isGameRunning) {
+        if (isGameRunning) {
+            while (timeLeft > 0) {
+                // Updates mole position every 800ms
+                kotlinx.coroutines.delay(800L)
+                moleIndex = (0..8).random()
+            }
+            moleIndex = -1 // Reset mole when game ends
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -82,6 +105,15 @@ fun GameScreen(onNavigateToSettings: () -> Unit) {
                 isGameRunning = true
             }) {
                 Text(if (isGameRunning) "Restart" else "Start Game")
+            }
+
+            if (timeLeft == 0 && !isGameRunning) {
+                Text(
+                    text = "Game Over! Final Score: $score",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(16.dp)
+                )
             }
         }
     }
