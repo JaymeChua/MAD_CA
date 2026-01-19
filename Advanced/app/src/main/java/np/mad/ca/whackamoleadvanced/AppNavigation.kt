@@ -47,7 +47,7 @@ fun LoginScreen(dao: GameDao, onLoginSuccess: (User) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Wack-a-Mole Advanced", style = MaterialTheme.typography.headlineMedium)
+        Text("Wack-a-Mole", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(value = username, onValueChange = { username = it }, label = { Text("Username") })
         OutlinedTextField(
